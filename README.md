@@ -18,7 +18,7 @@ Unmount filesystem (If root filesystem then mount read-only) and then:
 `noatime,nodiratime,logbufs=8,logbsize=256k,nobarrier`
 
 # /etc/rc.local
-```
+```bash
 ##
 # IO Scheduler
 ##
