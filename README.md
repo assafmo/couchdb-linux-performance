@@ -3,7 +3,7 @@
 ## Filesystem tuning
 ### ext4
 #### Mount options (or via /etc/fstab)
-`-o errors=remount-ro,noatime,nouser_xattr,barrier=0`
+`errors=remount-ro,noatime,nouser_xattr,barrier=0`
 
 #### Journal
 (Replace `sdXY` with your partition name)
@@ -16,7 +16,7 @@ Unmount filesystem (If root filesystem then mount read-only) and then:
 
 ### xfs
 #### Mount options (or via /etc/fstab)
-`-o noatime,nodiratime,logbufs=8,logbsize=256k,nobarrier`
+`noatime,nodiratime,logbufs=8,logbsize=256k,nobarrier`
 
 ## /etc/rc.local
 (Replace `sdX` with your device name)
