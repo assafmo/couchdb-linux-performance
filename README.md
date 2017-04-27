@@ -2,8 +2,8 @@
 
 # Filesystem
 ## ext4 performance
-### Mount options
-`errors=remount-ro,noatime,nouser_xattr,barrier=0`
+### Mount options (or via /etc/fstab)
+`-o errors=remount-ro,noatime,nouser_xattr,barrier=0`
 
 ### Journal
 #### Check if exists
@@ -14,14 +14,14 @@ Unmount filesystem (If root filesystem then mount read-only) and then:
 `tune2fs -O ^has_journal /dev/sdXY`
 
 ## xfs performance
-### Mount options
-`noatime,nodiratime,logbufs=8,logbsize=256k,nobarrier`
+### Mount options (or via /etc/fstab)
+`-o noatime,nodiratime,logbufs=8,logbsize=256k,nobarrier`
 
 # /etc/rc.local
 ```bash
-##
-# IO Scheduler
-##
+####
+## IO Scheduler
+####
 
 # First, set an appropriate IO scheduler for file servers:
 echo deadline > /sys/block/sdX/queue/scheduler
@@ -33,9 +33,9 @@ echo 4096 > /sys/block/sdX/queue/nr_requests
 # The actual amount of read-ahead is adaptive, so using a high value here won't harm performance for small random access.
 echo 4096 > /sys/block/sdX/queue/read_ahead_kb
 
-##
-# Virtual memory settings
-##
+####
+## Virtual memory settings
+####
 
 # To avoid long IO stalls (latencies) for write cache flushing in a production environment with very different workloads,
 # you will typically want to limit the kernel dirty (write) cache size:
