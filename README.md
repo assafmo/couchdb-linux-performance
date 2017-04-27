@@ -1,6 +1,6 @@
 # Best practices for CouchDB performance on linux systems
 
-## Filesystem
+## Filesystem tuning
 ### ext4
 #### Mount options (or via /etc/fstab)
 `-o errors=remount-ro,noatime,nouser_xattr,barrier=0`
