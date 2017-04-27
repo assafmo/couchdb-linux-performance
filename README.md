@@ -6,6 +6,7 @@
 `-o errors=remount-ro,noatime,nouser_xattr,barrier=0`
 
 #### Journal
+(Replace `sdXY` with your partition name)
 ##### Check if exists
 `sudo tune2fs -l /dev/sdXY | fgrep has_journal`
 
@@ -18,6 +19,7 @@ Unmount filesystem (If root filesystem then mount read-only) and then:
 `-o noatime,nodiratime,logbufs=8,logbsize=256k,nobarrier`
 
 ## /etc/rc.local
+(Replace `sdX` with your device name)
 ```bash
 ####
 ## IO Scheduler
@@ -54,6 +56,5 @@ echo 262144 > /proc/sys/vm/min_free_kbytes
 echo always > /sys/kernel/mm/transparent_hugepage/enabled
 echo always > /sys/kernel/mm/transparent_hugepage/defrag
 ```
-Replace `sdX` with your device name(s).
 ### Sources:
  - https://www.beegfs.com/wiki/StorageServerTuning
