@@ -55,6 +55,27 @@ echo 262144 > /proc/sys/vm/min_free_kbytes
 # For RHEL 7.x and other distributions, it is recommended to have transparent huge pages enabled:
 echo always > /sys/kernel/mm/transparent_hugepage/enabled
 echo always > /sys/kernel/mm/transparent_hugepage/defrag
+
+####
+## Process scheduler
+####
+
+# There's a kernel parameter that determines how long a migrated process has to be running
+# before the kernel will consider migrating it again to another core.
+# The sysctl name is sched_migration_cost_ns, default value 50000 (that's ns so 0.5 ms).
+# Forking servers, like PostgreSQL or Apache, scale to much higher levels of concurrent connections if this is made larger,
+# by at least an order of magnitude:
+echo 5000000 > /proc/sys/kernel/sched_migration_cost_ns
+
+# Another parameter that can dramatically impact forking servers is sched_autogroup_enabled.
+# This setting groups tasks by TTY, to improve perceived responsiveness on an interactive system.
+# On a server with a long running forking daemon, this will tend to keep child processes from migrating away as soon as they should.
+# It can be disabled like so:
+echo 0 > /proc/sys/kernel/sched_autogroup_enabled
 ```
+### Apply the changes
+`sudo /etc/rc.local` or `reboot`
+
 ### Sources:
  - https://www.beegfs.com/wiki/StorageServerTuning
+ - https://tweaked.io/guide/kernel/
