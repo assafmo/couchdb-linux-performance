@@ -54,3 +54,6 @@ echo 262144 > /proc/sys/vm/min_free_kbytes
 echo always > /sys/kernel/mm/transparent_hugepage/enabled
 echo always > /sys/kernel/mm/transparent_hugepage/defrag
 ```
+Replace `sdX` with your device name(s).
+## Sources:
+ - https://www.beegfs.com/wiki/StorageServerTuning
