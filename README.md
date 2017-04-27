@@ -1,23 +1,23 @@
 # Best practices for CouchDB performance on linux systems
 
-# Filesystem
-## ext4 performance
-### Mount options (or via /etc/fstab)
+## Filesystem
+### ext4
+#### Mount options (or via /etc/fstab)
 `-o errors=remount-ro,noatime,nouser_xattr,barrier=0`
 
-### Journal
-#### Check if exists
+#### Journal
+##### Check if exists
 `sudo tune2fs -l /dev/sdXY | fgrep has_journal`
 
-#### Turn Off/On
+##### Turn Off/On
 Unmount filesystem (If root filesystem then mount read-only) and then:  
 `tune2fs -O ^has_journal /dev/sdXY`
 
-## xfs performance
-### Mount options (or via /etc/fstab)
+### xfs
+#### Mount options (or via /etc/fstab)
 `-o noatime,nodiratime,logbufs=8,logbsize=256k,nobarrier`
 
-# /etc/rc.local
+## /etc/rc.local
 ```bash
 ####
 ## IO Scheduler
@@ -55,5 +55,5 @@ echo always > /sys/kernel/mm/transparent_hugepage/enabled
 echo always > /sys/kernel/mm/transparent_hugepage/defrag
 ```
 Replace `sdX` with your device name(s).
-## Sources:
+### Sources:
  - https://www.beegfs.com/wiki/StorageServerTuning
