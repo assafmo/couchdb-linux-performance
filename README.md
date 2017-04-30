@@ -50,6 +50,9 @@ echo 10 > /proc/sys/vm/dirty_ratio
 # to avoid disk seeks for inode loading:
 echo 50 > /proc/sys/vm/vfs_cache_pressure
 
+# Decrease swappiness to prevent swapping until 10% memory is left
+echo 10 > /proc/sys/vm/swappiness
+
 # Buffering of file system data requires frequent memory allocation.
 # Raising the amount of reserved kernel memory will enable faster and more reliable
 # memory allocation in critical situations.
