@@ -50,8 +50,8 @@ echo 10 > /proc/sys/vm/dirty_ratio
 # to avoid disk seeks for inode loading:
 echo 50 > /proc/sys/vm/vfs_cache_pressure
 
-# Decrease swappiness to prevent swapping until 10% memory is left
-echo 10 > /proc/sys/vm/swappiness
+# Decrease swappiness to prevent swapping as much as possible
+echo 1 > /proc/sys/vm/swappiness
 
 # Buffering of file system data requires frequent memory allocation.
 # Raising the amount of reserved kernel memory will enable faster and more reliable
@@ -88,3 +88,4 @@ echo 0 > /proc/sys/kernel/sched_autogroup_enabled
 ### Sources:
  - https://www.beegfs.com/wiki/StorageServerTuning
  - https://tweaked.io/guide/kernel/
+ - https://developer.couchbase.com/documentation/server/current/install/install-swap-space.html
