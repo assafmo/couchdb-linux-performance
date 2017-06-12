@@ -1,4 +1,4 @@
-# Linux tuning better for CouchDB performance
+# Linux tuning for better CouchDB performance
 
 ## Filesystem tuning
 ### ext4
