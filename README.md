@@ -85,7 +85,17 @@ echo 0 > /proc/sys/kernel/sched_autogroup_enabled
 ### Apply the changes
 `sudo /etc/rc.local` or `reboot`
 
-### Sources:
+## ionice:
+Giving CouchDB IO priority with `ionice`: `sudo ionice -p $(pidof beam.smp) -c 1 -n 0`.  
+This can also be done in a `systemd` unit:  
+```
+IOSchedulingClass=1
+IOSchedulingPriority=0
+```
+
+## Sources:
  - https://www.beegfs.com/wiki/StorageServerTuning
  - https://tweaked.io/guide/kernel/
  - https://developer.couchbase.com/documentation/server/current/install/install-swap-space.html
+ - http://www.tutorialspoint.com/unix_commands/ionice.htm
+ - https://www.freedesktop.org/software/systemd/man/systemd.exec.html
