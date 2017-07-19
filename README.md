@@ -85,7 +85,7 @@ echo 0 > /proc/sys/kernel/sched_autogroup_enabled
 ### Apply the changes
 `sudo /etc/rc.local` or `reboot`
 
-## ionice:
+## ionice
 Giving CouchDB IO priority with `ionice`: `sudo ionice -p $(pidof beam.smp) -c 1 -n 0`.  
 This can also be done in a `systemd` unit:  
 ```
