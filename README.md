@@ -87,7 +87,7 @@ echo 0 > /proc/sys/kernel/sched_autogroup_enabled
 
 ## ionice
 Giving CouchDB IO priority with `ionice`: `sudo ionice -p $(pidof beam.smp) -c 1 -n 0`.  
-[This can also be done in a `systemd` unit](https://gist.github.com/SinanGabel/eac83a2f9d0ac64e2c9d4bd936be9313/3d302ee7b2667b70c8372e4f6ce4891811f2fb94#file-couchdb-2-0-install-L116):  
+This can also be done in a [`systemd` unit](https://gist.github.com/SinanGabel/eac83a2f9d0ac64e2c9d4bd936be9313/3d302ee7b2667b70c8372e4f6ce4891811f2fb94#file-couchdb-2-0-install-L116):  
 ```
 IOSchedulingClass=1
 IOSchedulingPriority=0
