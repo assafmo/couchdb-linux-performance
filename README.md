@@ -60,9 +60,8 @@ echo 1 > /proc/sys/vm/swappiness
 # otherwise raise it to at least 256MB:
 echo 262144 > /proc/sys/vm/min_free_kbytes
 
-# For RHEL 7.x and other distributions, it is recommended to have transparent huge pages enabled:
-echo always > /sys/kernel/mm/transparent_hugepage/enabled
-echo always > /sys/kernel/mm/transparent_hugepage/defrag
+# It is recommended to have transparent huge pages disabled:
+echo madvise > /sys/kernel/mm/transparent_hugepage/enabled
 
 ####
 ## Process scheduler
@@ -104,3 +103,4 @@ IOSchedulingPriority=0
  - https://developer.couchbase.com/documentation/server/current/install/install-swap-space.html
  - http://www.tutorialspoint.com/unix_commands/ionice.htm
  - https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+ - https://blog.nelhage.com/post/transparent-hugepages/
