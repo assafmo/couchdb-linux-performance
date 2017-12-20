@@ -1,25 +1,36 @@
 # Linux tuning for better CouchDB performance
 
 ## Filesystem tuning
+
 ### ext4
+
 #### Mount options (or via /etc/fstab)
+
 `errors=remount-ro,noatime,nouser_xattr,barrier=0`
 
 #### Journal
+
 (Replace `sdXY` with your partition name)
+
 ##### Check if exists
+
 `sudo tune2fs -l /dev/sdXY | fgrep has_journal`
 
 ##### Turn Off/On
+
 Unmount filesystem (If root filesystem then mount read-only) and then:  
 `tune2fs -O ^has_journal /dev/sdXY`
 
 ### xfs
+
 #### Mount options (or via /etc/fstab)
+
 `noatime,nodiratime,logbufs=8,logbsize=256k,nobarrier`
 
 ## /etc/rc.local
+
 (Replace `sdX` with your device name)
+
 ```bash
 ####
 ## IO Scheduler
@@ -80,27 +91,40 @@ echo 5000000 > /proc/sys/kernel/sched_migration_cost_ns
 # migrating away as soon as they should.
 # It can be disabled like so:
 echo 0 > /proc/sys/kernel/sched_autogroup_enabled
+
+####
+## CPU
+####
+
+# Set the scaling governor to performance. This keeps the CPU at maximum frequency
+echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 ```
+
 ### Apply the changes
+
 `sudo /etc/rc.local` or `reboot`
 
 ## ionice
+
 :warning: Using `ionice` is effective if and only if IO scheduler uses an algorithm that takes
 priorities into account. If you have followed this guide so far, using `ionice` will have no effect
-since you have set IO Scheduler to `deadline` which doesn't use priorities. 
+since you have set IO Scheduler to `deadline` which doesn't use priorities.
 Look for `cfq` for a scheduler that works with priorities.
 
 Giving CouchDB IO priority with `ionice`: `sudo ionice -p $(pidof beam.smp) -c 1 -n 0`.  
-This can also be done in a [`systemd` unit](https://gist.github.com/SinanGabel/eac83a2f9d0ac64e2c9d4bd936be9313/3d302ee7b2667b70c8372e4f6ce4891811f2fb94#file-couchdb-2-0-install-L116):  
+This can also be done in a [`systemd` unit](https://gist.github.com/SinanGabel/eac83a2f9d0ac64e2c9d4bd936be9313/3d302ee7b2667b70c8372e4f6ce4891811f2fb94#file-couchdb-2-0-install-L116):
+
 ```
 IOSchedulingClass=1
 IOSchedulingPriority=0
 ```
 
 ## Sources:
- - https://www.beegfs.com/wiki/StorageServerTuning
- - https://tweaked.io/guide/kernel/
- - https://developer.couchbase.com/documentation/server/current/install/install-swap-space.html
- - http://www.tutorialspoint.com/unix_commands/ionice.htm
- - https://www.freedesktop.org/software/systemd/man/systemd.exec.html
- - https://blog.nelhage.com/post/transparent-hugepages/
+
+* https://www.beegfs.com/wiki/StorageServerTuning
+* https://tweaked.io/guide/kernel/
+* https://developer.couchbase.com/documentation/server/current/install/install-swap-space.html
+* http://www.tutorialspoint.com/unix_commands/ionice.htm
+* https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+* https://blog.nelhage.com/post/transparent-hugepages/
+* https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
