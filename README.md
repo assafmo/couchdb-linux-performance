@@ -36,8 +36,10 @@ Unmount filesystem (If root filesystem then mount read-only) and then:
 ## IO Scheduler
 ####
 
-# First, set an appropriate IO scheduler for file servers:
-echo deadline > /sys/block/sdX/queue/scheduler
+# First, set an appropriate IO scheduler for file servers.
+# deadline - For spinning disks
+# noop     - For VMs and SSDs
+echo noop > /sys/block/sdX/queue/scheduler
 
 # Now give the IO scheduler more flexibility by increasing the number of schedulable requests:
 echo 4096 > /sys/block/sdX/queue/nr_requests
@@ -108,7 +110,7 @@ echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governo
 
 :warning: Using `ionice` is effective if and only if IO scheduler uses an algorithm that takes
 priorities into account. If you have followed this guide so far, using `ionice` will have no effect
-since you have set IO Scheduler to `deadline` which doesn't use priorities.
+since you have set IO Scheduler to `deadline` or `noop` which doesn't use priorities.
 Look for `cfq` for a scheduler that works with priorities.
 
 Giving CouchDB IO priority with `ionice`: `sudo ionice -p $(pidof beam.smp) -c 1 -n 0`.  
@@ -121,10 +123,12 @@ IOSchedulingPriority=0
 
 ## Sources:
 
-* https://www.beegfs.com/wiki/StorageServerTuning
-* https://tweaked.io/guide/kernel/
-* https://developer.couchbase.com/documentation/server/current/install/install-swap-space.html
-* http://www.tutorialspoint.com/unix_commands/ionice.htm
-* https://www.freedesktop.org/software/systemd/man/systemd.exec.html
-* https://blog.nelhage.com/post/transparent-hugepages/
-* https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
+- https://www.beegfs.com/wiki/StorageServerTuning
+- https://tweaked.io/guide/kernel/
+- https://developer.couchbase.com/documentation/server/current/install/install-swap-space.html
+- http://www.tutorialspoint.com/unix_commands/ionice.htm
+- https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+- https://blog.nelhage.com/post/transparent-hugepages/
+- https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
+- https://blog.codeship.com/linux-io-scheduler-tuning/
+- https://askubuntu.com/a/784504
